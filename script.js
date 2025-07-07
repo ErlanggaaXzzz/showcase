@@ -71,30 +71,49 @@ function toggleTheme() {
 }
 
 // Push Josn Biar Otomatis
-function uploadToGitHub(data) {
-  fetch("http://localhost:3000/upload", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  })
-  .then(res => res.json())
-  .then(result => {
-    if (result.success) {
-      console.log("✅ Berhasil upload ke GitHub");
-    } else {
-      console.error("❌ Gagal upload:", result.error);
-      alert("❌ Gagal upload ke GitHub.");
-    }
-  })
-  .catch(err => {
-    console.error("❌ Upload error:", err);
-    alert("❌ Gagal konek ke backend.");
-  });
-}
+async function uploadToGitHub(newData) {
+  const token = process.env.GITHUB_TOKEN;
+  const owner = process.env.GITHUB_OWNER;
+  const repo = process.env.GITHUB_REPO;
+  const path = process.env.GITHUB_PATH;
 
-// Ambil isi projects.json lalu upload
-const data = require('./projects.json');
-uploadToGitHub(data);
+  try {
+    // Ambil SHA terakhir dari file
+    const get = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+      headers: { Authorization: `token ${token}` }
+    });
+    const json = await get.json();
+    const sha = json.sha;
+
+    // Encode isi file jadi base64
+    const base64Data = btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2))));
+
+    // Kirim update ke GitHub
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `token ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "🔄 Update from Web",
+        content: base64Data,
+        sha
+      })
+    });
+
+    if (res.ok) {
+      alert("✅ Berhasil diupload ke GitHub!");
+    } else {
+      const error = await res.json();
+      console.error("❌ Gagal upload:", error);
+      alert("❌ Upload gagal. Lihat console log.");
+    }
+  } catch (e) {
+    console.error("❌ Error:", e);
+    alert("❌ Error saat upload ke GitHub.");
+  }
+}
 // Tampilkan semua project
 function renderProjects(projects) {
   const container = document.getElementById('project-list')
