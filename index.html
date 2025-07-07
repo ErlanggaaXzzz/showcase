@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SasukeDev - Project Showcase</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="dark">
+  <!-- 🌧️ Efek hujan -->
+  <canvas id="rain-canvas"></canvas>
+
+  <!-- 🔥 KARTU PROFIL DEVELOPER -->
+  <header class="dev-card">
+    <img src="https://files.catbox.moe/fi0co3.jpeg" alt="Dev" class="avatar">
+    <h1>Erlangga Developer</h1>
+    <p>Developer Script Bot && Web</p>
+    <p><strong>Skil:</strong> JavaScript, Node.js, Python, Bash, C++, PHP</p>
+    <p><strong>Lokasi:</strong> Indonesia 🇮🇩</p>
+    <p><strong>Kontak:</strong> <a href="https://wa.me/6288905301692" target="_blank">WhatsApp</a></p>
+  </header>
+
+  <!-- 🗂️ FILTER KATEGORI -->
+  <section id="filters">
+    <button onclick="filterCategory('All')">All</button>
+    <button onclick="filterCategory('Bot')">Bot</button>
+    <button onclick="filterCategory('Panel')">Panel</button>
+    <button onclick="filterCategory('Tool')">Tool</button>
+  </section>
+
+  <!-- 🌗 TOGGLE DARK/LIGHT -->
+  <section style="text-align:center; margin-bottom: 1rem;">
+    <button onclick="toggleTheme()">🌓 Toggle Tema</button>
+  </section>
+
+  <!-- 🔐 MASUK DEVELOPER MODE -->
+  <section style="text-align:center; margin-bottom: 1rem;">
+    <button id="dev-btn" onclick="activateDev()">🔐 Masuk Developer Mode</button>
+  </section>
+
+  <!-- 📤 FORM TAMBAH/EDIT PROJECT -->
+  <section id="form-add" style="display:none; max-width:500px; margin:2rem auto;">
+    <h2>Tambah / Edit Project</h2>
+    <input type="text" id="title" placeholder="Judul Project" required><br>
+    <textarea id="desc" placeholder="Deskripsi Project" required></textarea><br>
+    <input type="text" id="category" placeholder="Kategori (Bot/Panel/Tool)" required><br>
+    <input type="text" id="github" placeholder="Link GitHub"><br>
+    <input type="text" id="demo" placeholder="Link Demo (opsional)"><br>
+    <input type="text" id="image" placeholder="Link Gambar (opsional)"><br>
+    <input type="text" id="whatsapp" placeholder="Nomor WhatsApp (cth: 6281234567890)"><br>
+    <button onclick="addProject()">Tambah</button>
+  </section>
+
+  <!-- 🧱 LIST PROJECT -->
+  <main id="project-list"></main>
+
+  <!-- 🧾 FOOTER -->
+  <footer>
+    <p>© 2025 Erlangga Official</p>
+  </footer>
+
+  <!-- ⚙️ SCRIPT -->
+  <script src="script.js"></script>
+</body>
+</html>
